@@ -22,7 +22,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { mainListItems } from './ListItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
-import Orders from './Orders';
+import FavoriteStocks from './FavoriteStocks';
 
 function MadeWithLove() {
   return (
@@ -247,7 +247,7 @@ export default function Dashboard() {
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Orders />
+                <FavoriteStocks />
               </Paper>
             </Grid>
           </Grid>
