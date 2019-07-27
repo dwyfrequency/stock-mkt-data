@@ -94,7 +94,7 @@ export default function FavoriteStocks() {
       </Table>
       <div className={classes.seeMore}>
         <Link color="primary" href="javascript:;">
-          See more orders
+          See more stocks
         </Link>
       </div>
     </React.Fragment>

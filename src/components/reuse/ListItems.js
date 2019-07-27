@@ -20,11 +20,5 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Stock Data" />
     </ListItem>
-    {/* <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Integrations" />
-    </ListItem> */}
   </div>
 );
