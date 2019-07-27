@@ -1,6 +1,6 @@
 /* eslint-disable no-script-url */
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AppRelatedContext } from '../context/AppContext';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,17 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
-
-// // Generate Order Data
-// function createData(id, name, shipTo, paymentMethod, amount) {
-//   return { id, name, shipTo, paymentMethod, amount };
-// }
-
-// const rows = [
-//   createData(0, 'APPL', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
-//   createData(1, 'BLK', 'London, UK', 'VISA ⠀•••• 2574', 866.99),
-//   createData(2, 'BMG', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-// ];
+import Axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   seeMore: {
@@ -30,7 +20,25 @@ const useStyles = makeStyles(theme => ({
 
 export default function FavoriteStocks() {
   const classes = useStyles();
-  const { favoriteStocks } = useContext(AppRelatedContext);
+  const {
+    favoriteStockList,
+    favoriteStockListData,
+    setFavoriteStockListData,
+  } = useContext(AppRelatedContext);
+  const [fetchError, setFetchError] = useState(null);
+
+  useEffect(() => {}, [favoriteStockList, favoriteStockListData]);
+
+  async function fetchStockData(stockTicker) {
+    try {
+      const { data } = await Axios.get(
+        `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockTicker}&apikey=demo`
+      );
+    } catch (error) {
+      setFetchError(error.message);
+    }
+  }
+
   return (
     <React.Fragment>
       <Title>Favorite Stocks</Title>
@@ -43,14 +51,13 @@ export default function FavoriteStocks() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {favoriteStocks.map(({ name, price, changePercent }) => (
+          {favoriteStockList.map(({ name, price, changePercent }) => (
             <TableRow key={name}>
               <TableCell>{name}</TableCell>
               <TableCell>{price}</TableCell>
               <TableCell>{changePercent}</TableCell>
             </TableRow>
           ))}
-          {JSON.stringify(favoriteStocks)}
         </TableBody>
       </Table>
       <div className={classes.seeMore}>
