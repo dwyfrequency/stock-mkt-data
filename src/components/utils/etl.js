@@ -60,14 +60,18 @@ export const getCurrentDate = () => {
 };
 
 export const parseAPIResponse = response => {
-  return response.reduce((accum, data) => {
-    const {
-      '01. symbol': name,
-      '05. price': price,
-      '10. change percent': changePercent,
-    } = data['Global Quote'];
-    return accum.concat({ name, price, changePercent });
-  }, []);
+  try {
+    return response.reduce((accum, data) => {
+      const {
+        '01. symbol': name,
+        '05. price': price,
+        '10. change percent': changePercent,
+      } = data['Global Quote'];
+      return accum.concat({ name, price, changePercent });
+    }, []);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // console.log(parseAPIResponse(apiResp));

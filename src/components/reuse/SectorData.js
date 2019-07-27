@@ -1,10 +1,14 @@
 /* eslint-disable no-script-url */
 
-import React from 'react';
-import Link from '@material-ui/core/Link';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Title from './Title';
+
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 const useStyles = makeStyles({
   depositContext: {
@@ -14,20 +18,45 @@ const useStyles = makeStyles({
 
 export default function SectorData() {
   const classes = useStyles();
+  const [sectorData, setSectorData] = useState({
+    'Communication Services': '3.25%',
+    'Consumer Staples': '1.19%',
+    Financials: '0.99%',
+    'Information Technology': '0.56%',
+    'Health Care': '0.42%',
+    Utilities: '0.41%',
+    'Real Estate': '0.33%',
+    'Consumer Discretionary': '0.22%',
+    Materials: '0.04%',
+    Industrials: '-0.17%',
+    Energy: '-0.50%',
+  });
+
+  useEffect(() => {
+    // setSectorData();
+  }, []);
+
   return (
     <React.Fragment>
-      <Title>Recent Deposits</Title>
-      <Typography component="p" variant="h4">
-        $3,024.00
-      </Typography>
-      <Typography color="textSecondary" className={classes.depositContext}>
-        on 15 March, 2019
-      </Typography>
-      <div>
-        <Link color="primary" href="javascript:;">
-          View balance
-        </Link>
-      </div>
+      <Title>Sector Data</Title>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Sector</TableCell>
+            <TableCell>Performance</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {Object.entries(sectorData).map(([fieldName, sectorData]) => {
+            return (
+              <TableRow key={fieldName}>
+                <TableCell>{fieldName}</TableCell>
+                <TableCell>{sectorData}</TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
     </React.Fragment>
   );
 }

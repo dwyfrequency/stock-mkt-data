@@ -83,13 +83,6 @@ export default function FavoriteStocks() {
                   </TableRow>
                 );
               })}
-          {/* favoriteStockList.map(({ name, price, changePercent }) => (
-                <TableRow key={name}>
-                  <TableCell>{name}</TableCell>
-                  <TableCell>{price}</TableCell>
-                  <TableCell>{changePercent}</TableCell>
-                </TableRow>
-              )) */}
         </TableBody>
       </Table>
       <div className={classes.seeMore}>
