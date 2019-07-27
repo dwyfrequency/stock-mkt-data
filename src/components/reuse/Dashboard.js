@@ -205,7 +205,9 @@ export default function Dashboard() {
             />
           </div>
           <IconButton color="inherit">
-            Market Open
+            {new Date().getDay() === 6 || new Date().getDay() === 0
+              ? 'Market Closed Today'
+              : 'Market Open Today'}
             {/* <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge> */}

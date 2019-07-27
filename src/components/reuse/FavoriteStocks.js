@@ -10,6 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
+import { parseAPIResponse } from '../utils/etl';
 import Axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
@@ -17,6 +18,8 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3),
   },
 }));
+
+const API_KEY = process.env.Alphavantage_API_KEY;
 
 export default function FavoriteStocks() {
   const classes = useStyles();
@@ -27,13 +30,23 @@ export default function FavoriteStocks() {
   } = useContext(AppRelatedContext);
   const [fetchError, setFetchError] = useState(null);
 
-  useEffect(() => {}, [favoriteStockList, favoriteStockListData]);
+  useEffect(() => {
+    const getApiData = async favoriteStockList => {
+      const data = await Promise.all(
+        favoriteStockList.map(stock => fetchStockData(stock))
+      );
+      const transformedData = parseAPIResponse(data);
+      setFavoriteStockListData(transformedData);
+    };
+    getApiData(favoriteStockList);
+  }, [favoriteStockList, setFavoriteStockListData]);
 
   async function fetchStockData(stockTicker) {
     try {
       const { data } = await Axios.get(
-        `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockTicker}&apikey=demo`
+        `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockTicker}&apikey=${API_KEY}`
       );
+      return data;
     } catch (error) {
       setFetchError(error.message);
     }
@@ -51,13 +64,32 @@ export default function FavoriteStocks() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {favoriteStockList.map(({ name, price, changePercent }) => (
-            <TableRow key={name}>
-              <TableCell>{name}</TableCell>
-              <TableCell>{price}</TableCell>
-              <TableCell>{changePercent}</TableCell>
-            </TableRow>
-          ))}
+          {favoriteStockListData
+            ? favoriteStockListData.map(({ name, price, changePercent }) => {
+                return (
+                  <TableRow key={name}>
+                    <TableCell>{name}</TableCell>
+                    <TableCell>{price}</TableCell>
+                    <TableCell>{changePercent}</TableCell>
+                  </TableRow>
+                );
+              })
+            : favoriteStockList.map(name => {
+                return (
+                  <TableRow key={name}>
+                    <TableCell>{name}</TableCell>
+                    <TableCell>0</TableCell>
+                    <TableCell>0</TableCell>
+                  </TableRow>
+                );
+              })}
+          {/* favoriteStockList.map(({ name, price, changePercent }) => (
+                <TableRow key={name}>
+                  <TableCell>{name}</TableCell>
+                  <TableCell>{price}</TableCell>
+                  <TableCell>{changePercent}</TableCell>
+                </TableRow>
+              )) */}
         </TableBody>
       </Table>
       <div className={classes.seeMore}>

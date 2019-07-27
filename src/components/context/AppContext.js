@@ -10,7 +10,7 @@ export const AppRelatedProvider = ({ children }) => {
   */
   const [favoriteStockListData, setFavoriteStockListData] = useState(null);
   const [favoriteStockList, setFavoriteStockList] = useState([
-    'APPL',
+    'AAPL',
     'IBM',
     'MSFT',
   ]);
