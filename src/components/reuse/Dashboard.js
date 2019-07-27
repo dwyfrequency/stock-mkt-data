@@ -19,7 +19,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { mainListItems } from './ListItems';
 import Chart from './Chart';
-import Deposits from './Deposits';
+import SectorData from './SectorData';
 import FavoriteStocks from './FavoriteStocks';
 
 function MadeWithLove() {
@@ -235,13 +235,13 @@ export default function Dashboard() {
                 <Chart />
               </Paper>
             </Grid>
-            {/* Recent Deposits */}
+            {/* Daily SectorData */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Deposits />
+                <SectorData />
               </Paper>
             </Grid>
-            {/* Recent Orders */}
+            {/* Fav Stocks */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <FavoriteStocks />
